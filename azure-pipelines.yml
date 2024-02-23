@@ -21,11 +21,4 @@ steps:
 
 
       
-steps:
-  - task: Docker@2
-    displayName: 'Run Test Suite'
-    inputs:
-          
-      image: '${{ variables.DOCKER_IMAGE_NAME }}:${{ variables.DOCKER_IMAGE_TAG }}'
-      sudo: true
-      command: 'npm run test'
+
