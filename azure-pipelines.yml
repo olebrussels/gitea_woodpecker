@@ -11,26 +11,30 @@ variables:
 stages:
  - stage: Build
    pool: ubuntu-latest
-   steps:
-    - task: Docker@2
-      displayName: 'Build Docker Image'
-      inputs:
-        command: 'build'
-        Dockerfile: 'Dockerfile.dev'
-        tags: '${{ variables.DOCKER_IMAGE_NAME }}:${{ variables.DOCKER_IMAGE_TAG }}'
-        sudo: true
+   jobs:
+    - job: Build
+      steps:
+       - task: Docker@2
+         displayName: 'Build Docker Image'
+         inputs:
+           command: 'build'
+           Dockerfile: 'Dockerfile.dev'
+           tags: '${{ variables.DOCKER_IMAGE_NAME }}:${{ variables.DOCKER_IMAGE_TAG }}'
+           sudo: true
 
  - stage: Test
    dependsOn: Build
    condition: succeeded()
    pool: ubuntu-latest
-   steps:
-    - task: Docker@2
-      displayName: 'Run Test Suite'
-      inputs:
-        image: '${{ variables.DOCKER_IMAGE_NAME }}:${{ variables.DOCKER_IMAGE_TAG }}'
-        sudo: true
-        command: 'npm run test'
+   jobs:
+    - job: Test
+      steps:
+       - task: Docker@2
+         displayName: 'Run Test Suite'
+         inputs:
+           image: '${{ variables.DOCKER_IMAGE_NAME }}:${{ variables.DOCKER_IMAGE_TAG }}'
+           sudo: true
+           command: 'npm run test'
 
 
       
