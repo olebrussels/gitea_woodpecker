@@ -10,7 +10,6 @@ variables:
 
 stages:
  - stage: Build
-   pool: ubuntu-latest
    jobs:
     - job: Build
       steps:
@@ -25,7 +24,6 @@ stages:
  - stage: Test
    dependsOn: Build
    condition: succeeded()
-   pool: ubuntu-latest
    jobs:
     - job: Test
       steps:
