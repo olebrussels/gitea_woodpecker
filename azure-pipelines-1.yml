@@ -36,17 +36,22 @@ stages:
         dockerfile: $(dockerfilePath)
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
-          $(tag)
+          28
   - job: Run and test
     displayName: Run and test
     pool:
       vmImage: $(vmImageName)
     steps:    
-    - task: AzureContainerApps@1
-      displayName: Deploy to Azure Container Apps
+    - task: Docker@2
+      displayName: 'Run Docker Container'
       inputs:
-        azureSubscription: $(azureSubscription)
-        resourceGroupName: $(resourceGroupName)
-        containerAppName: $(containerAppName)
-        containerImage: $(containerRegistry)/$(imageRepository):$(tag)
+        command: 'run'
+        containerRegistry: $(dockerRegistryServiceConnection)
+        repository: $(imageRepository)
+        containerImage: $(containerRegistry)/$(imageRepository):28
+        container: 'builder'
+        arguments: 'npm run test -- -- coverage'
+        workingDirectory: '/app'
+        runtime: 'ubuntu-22.04'
+
 
