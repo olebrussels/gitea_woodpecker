@@ -23,7 +23,7 @@ stages:
 - stage: build_run_and_test
   displayName: Build run and test
   jobs:
-  - job: Build and push
+  - job: build_and_push
     displayName: Build and push
     pool:
       vmImage: $(vmImageName)
@@ -37,7 +37,7 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           28
-  - job: Run and test
+  - job: run_nd_test
     displayName: Run and test
     pool:
       vmImage: $(vmImageName)
