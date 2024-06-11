@@ -23,8 +23,8 @@ stages:
 - stage: build_run_and_test
   displayName: Build run and test
   jobs:
-  - job: build_and_push
-    displayName: Build and push
+  - job: build_run_and_test
+    displayName: Build run and test
     pool:
       vmImage: $(vmImageName)
     steps:
@@ -37,10 +37,6 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           28
-  - job: run_nd_test
-    displayName: Run and test
-    pool:
-      vmImage: $(vmImageName)
     steps:    
     - task: Docker@2
       displayName: 'Run Docker Container'
@@ -48,6 +44,7 @@ stages:
         command: 'run'
         containerRegistry: $(dockerRegistryServiceConnection)
         repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
         containerImage: $(containerRegistry)/$(imageRepository):28
         container: 'builder'
         arguments: 'npm run test -- -- coverage'
