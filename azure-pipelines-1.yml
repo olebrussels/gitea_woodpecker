@@ -15,6 +15,9 @@ variables:
   containerRegistry: 'containeregtraining.azurecr.io'
   dockerfilePath: 'Dockerfile.dev'
   tag: '$(Build.BuildId)'
+  dockerUsername: "mpueyofer"
+  dockerPassword: "6rrzAMeVdf49H4"
+
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -36,7 +39,23 @@ stages:
         dockerfile: $(dockerfilePath)
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
-          28    
+          28   
+    - task: Docker@2
+      displayName: Fetch npm Image
+      inputs:
+        command: 'login'
+        containerRegistry: 'docker.io'
+        username: $(dockerUsername)
+        password: $(dockerPassword)
+
+    - task: Docker@2
+      displayName: Pull npm Image
+      inputs:
+        command: 'pull'
+        containerRegistry: 'docker.io'
+        repository: 'npm'
+        tags: 'latest'
+
     - task: Docker@2
       displayName: 'Run Docker Container'
       inputs:
