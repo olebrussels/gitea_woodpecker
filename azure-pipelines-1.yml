@@ -10,7 +10,7 @@ resources:
 
 variables:
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '5b4994af-8b7d-46c8-926a-473ac3062060'
+  dockerRegistryServiceConnection: 'gitea_service_connection'
   imageRepository: 'olebrusselsgiteawoodpecker'
   containerRegistry: 'containeregtraining.azurecr.io'
   dockerfilePath: 'Dockerfile.dev'
@@ -45,9 +45,10 @@ stages:
       displayName: Login to Docker
       inputs:
         command: login
+        containerRegistry: $(dockerRegistryServiceConnection)
         username: $(dockerUsername)
         password: $(dockerPassword)
-        
+
     - task: Docker@2
       displayName: Run
       inputs: 
