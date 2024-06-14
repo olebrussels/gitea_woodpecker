@@ -21,6 +21,10 @@ variables:
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
+  container: node:16
+  steps:
+  - script: npm install
+  - script: npm run build
 
 stages:
 - stage: build_run_and_test
