@@ -14,7 +14,7 @@ variables:
   imageRepository: 'olebrusselsgiteawoodpecker'
   containerRegistry: 'containeregtraining.azurecr.io'
   dockerfilePath: 'Dockerfile.dev'
-  tag: '$(Build.BuildId)'
+  tag: '$(Build.gitea)'
   dockerUsername: "mpueyofer"
   dockerPassword: "6rrzAMeVdf49H4"
 
@@ -35,8 +35,23 @@ stages:
       displayName: Build 
       inputs:
         command: build
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath) 
+        dockerfile: $(dockerfilePath)
+        tags: |
+          $(tag)
+          latest
+      outputs:
+        tags: 
+          $(tag)
+          latest
+    - task: Docker@2
+      displayName: Run
+      inputs: 
+        command: run
+        container: $(tag)latest
+        arguments: 'npm run test -- -- coverage'
+        workingDirectory: '/app'
+
+
     
 
   
