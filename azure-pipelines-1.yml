@@ -39,10 +39,6 @@ stages:
         tags: |
           $(tag)
           latest
-      outputs:
-        tags: 
-          $(tag)
-          latest
     - task: Docker@2
       displayName: Run
       inputs: 
