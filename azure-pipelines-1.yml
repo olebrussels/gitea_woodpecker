@@ -54,7 +54,6 @@ stages:
       inputs: 
         command: run
         container: $(tag)latest
-        arguments: 'npm install'
         workingDirectory: '/app'
 
 
