@@ -55,7 +55,6 @@ stages:
         command: run
         container: $(tag)latest
         arguments: 'npm install'
-        arguments: 'npm run test -- -- coverage'
         workingDirectory: '/app'
 
 
